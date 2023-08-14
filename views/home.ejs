@@ -1,4 +1,8 @@
 <%- include("partials/header") -%>
 <h1>home</h1>
 <p><%= homeContent%></p>
+<% for(var post of posts){%>
+<h2><%= post.title %></h2>
+<p><%= post.body %></p>
+<% } %>
 <%- include("partials/footer") -%>
