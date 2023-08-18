@@ -32,6 +32,19 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+const noteSchema = mongoose.Schema({
+  title: String,
+  content: String,
+});
+
+const Note = new mongoose.model("Note", noteSchema);
+
+const testNote = new Note({
+  title: "Test",
+  content: "This is just for testingg!!!!!",
+});
+testNote.save();
+
 app.get("/", (req, res) => {
   res.render("home.ejs", {
     homeContent: homeStartingContent,
