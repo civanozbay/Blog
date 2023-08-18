@@ -45,8 +45,17 @@ const testNote = new Note({
 });
 // testNote.save();
 
+async function getNotes() {
+  try {
+    const notes = await Note.find({});
+    return notes;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 app.get("/", async (req, res) => {
-  const notes = await Note.find({});
+  const notes = await getNotes();
 
   res.render("home.ejs", {
     homeContent: homeStartingContent,
@@ -77,12 +86,15 @@ app.post("/compose", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/posts/:postTitle", (req, res) => {
-  const lowerTitle = _.lowerCase(req.params.postTitle);
-  for (var title of data) {
-    const lowerTitleData = _.lowerCase(title.title);
-    if (lowerTitle === lowerTitleData) {
-      res.render("post.ejs", { title: title.title, body: title.body });
+app.get("/posts/:postId", async (req, res) => {
+  // const lowerTitle = _.lowerCase(req.params.postId);
+  const lowerTitle = req.params.postId;
+  console.log(lowerTitle);
+  const notes = await getNotes();
+  for (var title of notes) {
+    const postId = title._id.toString();
+    if (lowerTitle === postId) {
+      res.render("post.ejs", { title: title.title, body: title.content });
     } else {
       console.log("not matcg");
     }
