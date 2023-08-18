@@ -43,12 +43,14 @@ const testNote = new Note({
   title: "Test",
   content: "This is just for testingg!!!!!",
 });
-testNote.save();
+// testNote.save();
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const notes = await Note.find({});
+
   res.render("home.ejs", {
     homeContent: homeStartingContent,
-    posts: data,
+    posts: notes,
   });
 });
 
@@ -65,11 +67,13 @@ app.get("/compose", (req, res) => {
 });
 
 app.post("/compose", (req, res) => {
-  const post = {
-    title: req.body.postTitle,
-    body: req.body.postBody,
-  };
-  data.push(post);
+  const title = req.body.postTitle;
+  const content = req.body.postBody;
+  const blog = new Note({
+    title: title,
+    content: content,
+  });
+  blog.save();
   res.redirect("/");
 });
 
