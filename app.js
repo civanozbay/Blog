@@ -1,13 +1,19 @@
 //jshint esversion:6
-
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 const _ = require("lodash");
 
+const username = process.env.USERNAME;
+const password = process.env.PASSWORD;
 mongoose.connect(
-  "mongodb+srv://civan:kodalfa3@cluster0.yvrqpeb.mongodb.net/blogDB?retryWrites=true&w=majority",
+  "mongodb+srv://" +
+    username +
+    ":" +
+    password +
+    "@cluster0.yvrqpeb.mongodb.net/blogDB?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
   }
